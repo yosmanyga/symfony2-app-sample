@@ -1,0 +1,42 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block body_class 'admin' %}
+
+{% block content %}
+    <div class="row">
+        <div id="content-header" class="col-sm-12">
+            {% block content_header %}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1 class="title">Registrar rebaja</h1>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+
+        <div id="main" class="col-sm-12">
+            <div>
+                {{ form_start(form, { attr: { class: 'form-horizontal' } }) }}
+                <div id="form">
+                    <div class="form-group field_text ">
+                        <label for="producto" class="col-sm-2 control-label required">Lote</label>
+                        <div class="col-sm-10 ">
+                            {{ form_widget(form.lote, {attr: {class: 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <button class="btn" type="submit">
+                                <i class="fa fa-arrow-right"></i> Continuar
+                            </button>
+
+                            <a href="{{ path('admin', { entity: 'Rebaja', action: 'list' }) }}" class="btn btn-list btn-secondary">Volver al listado</a>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,126 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block body_class 'admin' %}
+
+{% block content %}
+    <div class="row">
+        <div id="content-header" class="col-sm-12">
+            {% block content_header %}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1 class="title">Registrar rebaja</h1>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+
+        <div id="main" class="col-sm-12">
+            <div>
+                <form class="form-horizontal" action="{{ path('app_rebaja_registrar1') }}" method="post">
+                    <div id="form">
+                        <div class="form-group field_text ">
+                            <label for="producto" class="col-sm-2 control-label required">Lote</label>
+                            <div class="col-sm-10 ">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ form_widget(form1.lote, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn" type="submit">
+                                            <i class="fa fa-refresh"></i> Cambiar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <form class="form-horizontal" action="{{ path('app_rebaja_registrar3') }}" method="post">
+                    <div id="form">
+                        <div class="form-group">
+                            <input type="hidden" name="{{ form2.lote.vars.full_name }}" value="{{ form1.lote.vars.value }}">
+                            <label for="producto" class="col-sm-2 control-label required">Unidad</label>
+                            <div class="col-sm-10 ">
+                                <table class="table table-condensed table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th class="string"></th>
+                                        <th class="string">Nombre</th>
+                                        <th class="string">Cantidad disponible para rebajar</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for distribucion in distribucionesParaRebajar %}
+                                        <tr>
+                                            <td>
+                                                <input type="radio" value="{{ distribucion.unidad.id }}" required="required" name="unidad" id="unidad_{{ loop.index0 }}">
+                                            </td>
+                                            <td>{{ distribucion.unidad.nombre }}</td>
+                                            <td>{{ distribucion.cant }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group field_text ">
+                            <label for="producto" class="col-sm-2 control-label required">Fecha de solicitud</label>
+                            <div class="col-sm-10 ">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        {{ form_widget(form2.fechaSolicitud.day, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{ form_widget(form2.fechaSolicitud.month, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{ form_widget(form2.fechaSolicitud.year, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group field_text ">
+                            <label for="producto" class="col-sm-2 control-label required">Fecha de aprovación</label>
+                            <div class="col-sm-10 ">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        {{ form_widget(form2.fechaAprovacion.day, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{ form_widget(form2.fechaAprovacion.month, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{ form_widget(form2.fechaAprovacion.year, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group field_text ">
+                            <label for="producto" class="col-sm-2 control-label required">Observaciones</label>
+                            <div class="col-sm-10 ">
+                                {{ form_widget(form2.observaciones, {attr: {class: 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group field_text ">
+                            <label for="producto" class="col-sm-2 control-label required">Precio aplicado</label>
+                            <div class="col-sm-10 ">
+                                {{ form_widget(form2.precioAplicado, {attr: {class: 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                <button class="btn" type="submit">
+                                    <i class="fa fa-save"></i> Registrar
+                                </button>
+
+                                <a href="{{ path('admin', { entity: 'Rebaja', action: 'list' }) }}" class="btn btn-list btn-secondary">Volver al listado</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

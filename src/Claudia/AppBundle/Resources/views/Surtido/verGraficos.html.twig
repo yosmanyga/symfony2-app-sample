@@ -1,0 +1,95 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block body_class 'admin' %}
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    <script src="{{ asset('bundles/claudiaapp/js/chart.min.js') }}"></script>
+
+    <script>
+        var cantidadesPorFechaEntrada = {
+            labels : ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                      "Agosto", "Septiembre", "Octubre", "Nobiembre", "Diciembre"],
+            datasets : [
+                {
+                    label: "Surtidos por mes",
+                    fillColor : "rgba(220,220,220,0.2)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    pointColor : "rgba(220,220,220,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(220,220,220,1)",
+                    data : [
+                        {% for cantidadPorFechaEntrada in cantidadesPorFechaEntrada %}
+                            {{ cantidadPorFechaEntrada }}
+                            {% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    ]
+                }
+            ]
+        };
+
+        var cantidadesPorProducto = {
+            labels : [
+                {% for cantidadPorProducto in cantidadesPorProducto %}
+                    "{{ cantidadPorProducto.nombre }}"
+                    {% if not loop.last %}, {% endif %}
+                {% endfor %}
+            ],
+            datasets : [
+                {
+                    label: "Surtidos por mes",
+                    fillColor : "rgba(220,220,220,0.2)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    pointColor : "rgba(220,220,220,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(220,220,220,1)",
+                    data : [
+                        {% for cantidadPorProducto in cantidadesPorProducto %}
+                            {{ cantidadPorProducto.cantidad }}
+                            {% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    ]
+                }
+            ]
+        };
+
+        window.onload = function(){
+            var c1 = document.getElementById("cantidadesPorFechaEntrada").getContext("2d");
+            window.cantidadesPorFechaEntrada = new Chart(c1).Line(cantidadesPorFechaEntrada, {
+                responsive: true
+            });
+
+            var c2 = document.getElementById("cantidadesPorProducto").getContext("2d");
+            window.cantidadesPorProducto = new Chart(c2).Bar(cantidadesPorProducto, {
+                responsive: true
+            });
+        };
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="content-header" class="col-sm-12">
+        </div>
+
+        <div id="main" class="col-sm-12">
+            <div class="row">
+                <div class="col-md-5">
+                    <h1 class="title">Cantidad de surtidos por meses</h1>
+                    <canvas id="cantidadesPorFechaEntrada" height="450" width="600"></canvas>
+                </div>
+                <div class="col-md-push-1 col-md-5">
+                    <h1 class="title">Cantidad de surtidos por producto</h1>
+                    <canvas id="cantidadesPorProducto" height="450" width="600"></canvas>
+                </div>
+            </div>
+
+            <a class="btn" href="{{ path('admin', { entity: 'Surtido', action: 'list' }) }}">
+                Volver al listado
+            </a>
+        </div>
+    </div>
+{% endblock %}
+

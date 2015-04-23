@@ -1,0 +1,121 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block body_class 'admin' %}
+
+{% block content %}
+    <div class="row">
+        <div id="content-header" class="col-sm-12">
+            {% block content_header %}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1 class="title">Registrar venta</h1>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+
+        <div id="main" class="col-sm-12">
+            <div>
+                <form class="form-horizontal" action="{{ path('app_venta_registrar1') }}" method="post">
+                    <div id="form">
+                        <div class="form-group field_text ">
+                            <label for="producto" class="col-sm-2 control-label required">Producto</label>
+                            <div class="col-sm-10 ">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ form_widget(form1.producto, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn" type="submit">
+                                            <i class="fa fa-refresh"></i> Cambiar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group field_text ">
+                            <label for="unidad" class="col-sm-2 control-label required">Unidad</label>
+                            <div class="col-sm-10 ">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ form_widget(form1.unidad, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn" type="submit">
+                                            <i class="fa fa-refresh"></i> Cambiar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <form class="form-horizontal" action="{{ path('app_venta_registrar3') }}" method="post">
+                    <div id="form">
+                        <div class="form-group">
+                            <input type="hidden" name="{{ form2.unidad.vars.full_name }}" value="{{ form1.unidad.vars.value }}">
+                            <label for="producto" class="col-sm-2 control-label required">Lote</label>
+                            <div class="col-sm-10 ">
+                                <table class="table table-condensed table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th class="string"></th>
+                                        <th class="string">Código</th>
+                                        <th class="string">Fecha de vencimiento</th>
+                                        <th class="string">Cantidad disponible para vender</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for lote in lotesParaVender %}
+                                        <tr>
+                                            <td>
+                                                <input type="radio" value="{{ lote.id }}" required="required" name="lote" id="lote_{{ loop.index0 }}">
+                                            </td>
+                                            <td>{{ lote.id }}</td>
+                                            <td>{{ lote.fecha_vencimiento|date("j/n/Y") }}</td>
+                                            <td>{{ lote.cant }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group field_text ">
+                            <label for="producto" class="col-sm-2 control-label required">Cantidad</label>
+                            <div class="col-sm-10 ">
+                                {{ form_widget(form2.cant, {attr: {class: 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group field_text ">
+                            <label for="producto" class="col-sm-2 control-label required">Fecha de venta</label>
+                            <div class="col-sm-10 ">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        {{ form_widget(form2.fechaVenta.day, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{ form_widget(form2.fechaVenta.month, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{ form_widget(form2.fechaVenta.year, {attr: {class: 'form-control'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                <button class="btn" type="submit">
+                                    <i class="fa fa-save"></i> Registrar
+                                </button>
+
+                                <a href="{{ path('admin', { entity: 'Venta', action: 'list' }) }}" class="btn btn-list btn-secondary">Volver al listado</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
