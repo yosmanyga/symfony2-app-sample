@@ -16,6 +16,8 @@ class Lote
      *
      * @ORM\Column(type="string")
      * @ORM\Id
+     *
+     * @Assert\NotBlank()
      */
     private $id;
 
@@ -31,6 +33,7 @@ class Lote
      *
      * @ORM\Column(name="costo", type="float")
      *
+     * @Assert\NotBlank()
      * @Assert\Expression("value < this.getProducto().getPrecio()", message="El costo debe ser menor que el precio del producto.")
      */
     private $costo;
@@ -39,6 +42,8 @@ class Lote
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_vencimiento", type="date")
+     *
+     * @Assert\Range(min="today", minMessage="La fecha de vencimiento tiene que ser mayor que la actual.")
      */
     private $fechaVencimiento;
 
